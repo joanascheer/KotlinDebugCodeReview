@@ -6,4 +6,3 @@ fun main() {
     val estoque: Estoque = Estoque()
     Menu().menuPrincipal(estoque)
 }
-

@@ -3,34 +3,36 @@ package src.estoque
 import src.item.Item
 
 class Estoque {
-    private val listaItem: ArrayList<Item> = ArrayList()
+    val listaItem: ArrayList<Item> = ArrayList()
 
-    fun registrarItem() {
+    fun registrarItem()  : Item {
         println("Digite o código do produto: ")
-        val codigo = readln().toInt()
+        val codigo = readln()
         println("Digite o nome do produto: ")
         val nomeItem = readln()
         println("Digite o preco do produto: ")
         val preco = readln().toBigDecimal()
-        val item: Item = Item(codigo = codigo, nome = nomeItem, preco = preco)
-        listaItem.add(item);
+
         println("Item registrado com sucesso\n")
 
+        return Item(codigo,nomeItem,preco)
     }
 
     fun verificarItemRepetido() {
         TODO("Não implementado ainda")
     }
 
-    private fun listarItens() {
-        if (!listaItem.isEmpty()) {
+    internal fun listarItens() : ArrayList<Item> {
+        if (listaItem.isEmpty()) {
             println("Não temos nenhum item cadastrado no momento")
         } else {
             println("Atualmente temos os seguintes itens: ${listaItem.toString()}");
         }
+
+        return listaItem
     }
 
-    fun darBaixaItem() {
+    fun darBaixaItem(listaItem : ArrayList<Item>) {
         print("Qual o código do item a dar baixa? ")
         val codigoItemADarBaixa = readln()
         for (item in listaItem) {

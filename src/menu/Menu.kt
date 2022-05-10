@@ -13,11 +13,12 @@ class Menu {
         println("4 - Sair do programa")
 
         //TODO:deixar sem o try/catch para avaliar se a galera percebe que dá problema de entrada de dado se for string
-        val opcao = readln().toInt()
 
-        when (opcao) {
+        when (readln().toInt()) {
             1 -> {
-                estoque.registrarItem()
+                val item = Estoque().registrarItem()
+                estoque.listaItem.add(item)
+                estoque.listarItens()
                 this.menuPrincipal(estoque)
             }
             2 -> {
@@ -25,7 +26,7 @@ class Menu {
                 this.menuPrincipal(estoque)
             }
             3 -> {
-                estoque.darBaixaItem()
+                estoque.darBaixaItem(estoque.listaItem)
                 this.menuPrincipal(estoque)
             }
 
