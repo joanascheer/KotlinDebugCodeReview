@@ -4,7 +4,7 @@ import src.item.Item
 import src.menu.Menu
 
 class Estoque {
-    val listaItem: ArrayList<Item> = ArrayList()
+    internal val listaItem: ArrayList<Item> = ArrayList()
 
     fun registrarItem(): Item {
 
@@ -13,7 +13,7 @@ class Estoque {
         itemCriado.getItemNome()
         itemCriado.getItemPreco()
 
-        verificarItemRepetido(itemCriado.codigo,listaItem)
+        verificarItemRepetido(itemCriado.codigo, itemCriado)
 
         return itemCriado
     }
@@ -23,24 +23,26 @@ class Estoque {
         return listaItem
     }
 
-    private fun verificarItemRepetido(codigo: String, listaItem: ArrayList<Item>) :Boolean{
+    private fun verificarItemRepetido(codigo: String, item: Item) {
 
         var verifica = false
 
-        for (item in listaItem) {
-            if (codigo == item.codigo) {
-                verifica = true
-        }
-
-            if (verifica) {
-                println("*** Você não pode cadastrar dois produtos iguais. Tente novamente!")
-                registrarItem()
-            } else {
-                preencherListaItens(item)
+        for (i in listaItem.indices) {
+            when (codigo) {
+                listaItem[i].codigo -> {
+                    verifica = true
+                }
             }
         }
 
-        return verifica
+        if (verifica) {
+            println("*** Você não pode cadastrar dois produtos iguais. Tente novamente!")
+            registrarItem()
+        } else {
+            preencherListaItens(item)
+        }
+
+
     }
 
     fun listarItens(): ArrayList<Item> {
@@ -48,7 +50,7 @@ class Estoque {
             println("Não temos nenhum item cadastrado no momento!\n" +
                     "Deseja cadastrar novo item?\n" +
                     "[1] SIM | [2] NÃO\n")
-            when(readln()) {
+            when (readln()) {
                 "1" -> registrarItem()
                 "2" -> Menu()
                 else -> {
