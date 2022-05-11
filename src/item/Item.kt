@@ -7,7 +7,8 @@ class Item(
     private var nome: String = "",
     private var preco: BigDecimal = BigDecimal(0),
 ) {
-    protected val valorDesconto: String = ""
+    //protected val valorDesconto: String = ""
+
 
     fun getItemCodigo() {
         try {
@@ -53,8 +54,7 @@ class Item(
     }
 
     override fun toString(): String {
-        return "\nCódigo: $codigo\n" +
-                "Nome: $nome\n" +
-                "Preço: R$$preco"
+        return "código: $codigo | nome: $nome | preço(R$) $preco"
     }
+
 }
