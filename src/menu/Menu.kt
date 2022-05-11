@@ -1,17 +1,18 @@
 package src.menu
 
 import src.estoque.Estoque
-import src.item.Item
 import kotlin.system.exitProcess
 
 class Menu {
     init {
-        println("Boas vindas ao Seu Estoque em dia!")
-        val estoque: Estoque = Estoque()
+        println("Boas vindas ao Seu Estoque em dia!\n" +
+                "**********************************\n")
+
+        val estoque = Estoque()
         menuPrincipal(estoque)
     }
 
-    fun menuPrincipal(estoque: Estoque) {
+    private fun menuPrincipal(estoque: Estoque) {
 
         try {
             println("O que deseja fazer?")
@@ -22,20 +23,19 @@ class Menu {
 
             when (readln().toInt()) {
                 1 -> {
-                    val item = estoque.registrarItem()
-                    estoque.listaItem.add(item)
-                    this.menuPrincipal(estoque)
+                    estoque.registrarItem()
+                    menuPrincipal(estoque)
                 }
                 2 -> {
                     estoque.listarItens()
-                    this.menuPrincipal(estoque)
+                    menuPrincipal(estoque)
                 }
                 3 -> {
                     estoque.darBaixaItem(estoque.listaItem)
-                    this.menuPrincipal(estoque)
+                    menuPrincipal(estoque)
                 }
+                4 -> exitProcess(0)
 
-                4 -> exitProcess(10)
                 else -> {
                     println("Opção inválida, tente novamente")
                     menuPrincipal(estoque)

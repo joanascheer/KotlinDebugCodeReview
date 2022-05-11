@@ -1,39 +1,64 @@
 package src.estoque
 
 import src.item.Item
-import kotlin.system.exitProcess
+import src.menu.Menu
 
 class Estoque {
     val listaItem: ArrayList<Item> = ArrayList()
 
     fun registrarItem(): Item {
 
-        println("Digite o código do produto: ")
-        val codigo = readln()
-        verificarItemRepetido(codigo, listaItem)
-        println("Digite o nome do produto: ")
-        val nomeItem = readln()
-        println("Digite o preco do produto: ")
-        val preco = readln().toBigDecimal()
+        val itemCriado = Item()
+        itemCriado.getItemCodigo()
+        itemCriado.getItemNome()
+        itemCriado.getItemPreco()
 
-        return Item(codigo, nomeItem, preco)
+        verificarItemRepetido(itemCriado.codigo,listaItem)
+
+        return itemCriado
     }
 
-    fun verificarItemRepetido(codigo: String, listaItem: ArrayList<Item>){
+    private fun preencherListaItens(item: Item): ArrayList<Item> {
+        listaItem.add(item)
+        return listaItem
+    }
+
+    private fun verificarItemRepetido(codigo: String, listaItem: ArrayList<Item>) :Boolean{
+
+        var verifica = false
+
         for (item in listaItem) {
             if (codigo == item.codigo) {
-                println("Você não pode cadastrar dois produtos iguais. Comece novamente!")
-                exitProcess(0)
+                verifica = true
+        }
+
+            if (verifica) {
+                println("*** Você não pode cadastrar dois produtos iguais. Tente novamente!")
+                registrarItem()
+            } else {
+                preencherListaItens(item)
             }
         }
 
+        return verifica
     }
 
-    internal fun listarItens(): ArrayList<Item> {
+    fun listarItens(): ArrayList<Item> {
         if (listaItem.isEmpty()) {
-            println("Não temos nenhum item cadastrado no momento")
+            println("Não temos nenhum item cadastrado no momento!\n" +
+                    "Deseja cadastrar novo item?\n" +
+                    "[1] SIM | [2] NÃO\n")
+            when(readln()) {
+                "1" -> registrarItem()
+                "2" -> Menu()
+                else -> {
+                    println("Opção inválida")
+                    Menu()
+                }
+            }
         } else {
-            println("Atualmente temos os seguintes itens: ${listaItem.toString()}")
+            println("*** Atualmente temos os seguintes itens:\n" +
+                    " ${listaItem.toString()}")
         }
 
         return listaItem
@@ -42,11 +67,15 @@ class Estoque {
     fun darBaixaItem(listaItem: ArrayList<Item>) {
         print("Qual o código do item a dar baixa? ")
         val codigoItemADarBaixa = readln()
+
         for (item in listaItem) {
             if (codigoItemADarBaixa == item.codigo) {
                 listaItem.remove(item)
                 println("Item removido com sucesso")
                 break
+            } else {
+                println("Produto não cadastrado ou código inválido!")
+                darBaixaItem(listaItem)
             }
         }
     }
